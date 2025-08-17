@@ -16,12 +16,12 @@ document.addEventListener('DOMContentLoaded',function(){
         alert('enter a task');
         return;
       }
-      loadTask(taskText);
+      loadTasks(taskText);
       tasks.push(taskText);
       localStorage.setItem("tasks",JSON.stringify(tasks));
       taskInput.value = "";
        }
-      function loadTask(taskText){
+      function loadTasks(taskText){
          let li = document.createElement('li');
          li.textContent = taskText;
       
