@@ -4,6 +4,10 @@ document.addEventListener('DOMContentLoaded',function(){
     const addButton = document.getElementById('add-task-btn');
     const taskInput = document.getElementById('task-input');
     const taskList  = document.getElementById('task-list');
+    let tasks = [];
+    const savedTasks = localStorage.getItem("tasks");
+    tasks = JSON.parse(savedTasks);
+    tasks.forEach(task => loadTask(task));
     //Create the addTask Function:
     function addTask(){
         //Task Creation and Removal:
@@ -12,19 +16,27 @@ document.addEventListener('DOMContentLoaded',function(){
         alert('enter a task');
         return;
       }
-        let li = document.createElement('li');
-        li.textContent = taskText;
-      
-       let removeButton = document.createElement('button');
-       removeButton.textContent = "Remove";
-       removeButton.classList.add ('remove-btn');
-       removeButton.onclick = function (){
-         taskList.removeChild(li);
+      loadTask(taskText);
+      tasks.push(taskText);
+      localStorage.setItem("tasks",JSON.stringify(tasks));
+      taskInput.value = "";
        }
-       li.appendChild(removeButton);
-       taskList.appendChild(li);
-       taskInput.value = "";
-    }
+      function loadTask(taskText){
+         let li = document.createElement('li');
+         li.textContent = taskText;
+      
+          let removeButton = document.createElement('button');
+         removeButton.textContent = "Remove";
+         removeButton.classList.add ('remove-btn');
+         removeButton.onclick = function (){
+                taskList.removeChild(li);
+               tasks = tasks.filter(task => task !== taskText);
+             localStorage.setItem('tasks',JSON.stringify(tasks));
+           };
+           li.appendChild(removeButton);
+           taskList.appendChild(li); 
+        }
+
     //Attach Event Listeners:
 
     //Add click event to addButton
@@ -35,5 +47,4 @@ document.addEventListener('DOMContentLoaded',function(){
         addTask();
     }
  });
- 
 });
